@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BK Prediction Overlay</title>
+    <title>BK Prediction Injector</title>
     <style>
         html, body {
             margin: 0;
@@ -24,11 +24,11 @@
             position: fixed;
             top: 50px;
             right: 10px;
-            width: 100px;
+            width: 120px;
             background: rgba(0, 0, 0, 0.95);
             border: 2px solid #00ff00;
-            border-radius: 10px;
-            padding: 10px;
+            border-radius: 8px;
+            padding: 8px;
             z-index: 10000;
             color: white;
             box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
@@ -103,15 +103,112 @@
             color: #ccc;
             margin-top: 3px;
         }
+        
+        /* SCREEN PASSWORD */
+        #passwordScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 20000;
+            color: white;
+        }
+        
+        .password-container {
+            background: rgba(0, 20, 0, 0.9);
+            border: 2px solid #00ff00;
+            border-radius: 10px;
+            padding: 25px;
+            width: 280px;
+            text-align: center;
+        }
+        
+        .password-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #00ff00;
+            margin-bottom: 15px;
+        }
+        
+        .password-input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 12px;
+            border: 1px solid #00ff00;
+            border-radius: 5px;
+            background: #001100;
+            color: #00ff00;
+            font-size: 14px;
+            text-align: center;
+        }
+        
+        .password-btn {
+            width: 100%;
+            padding: 10px;
+            background: #00ff00;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+        
+        .telegram-btn {
+            width: 100%;
+            padding: 10px;
+            background: #0088cc;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+            text-decoration: none;
+            display: block;
+        }
+        
+        .error-message {
+            color: #ff4444;
+            font-size: 12px;
+            margin-top: 10px;
+            min-height: 15px;
+        }
+        
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
 
+    <!-- Screen Password -->
+    <div id="passwordScreen">
+        <div class="password-container">
+            <div class="password-title">BK PREDICTION</div>
+            <input type="password" 
+                   id="passwordInput" 
+                   class="password-input" 
+                   placeholder="Masukkan Password"
+                   autocomplete="off">
+            <button id="submitPassword" class="password-btn">VERIFIKASI</button>
+            <a href="https://t.me/Shen_quen" target="_blank" class="telegram-btn">HUBUNGI ADMIN</a>
+            <div id="passwordError" class="error-message"></div>
+        </div>
+    </div>
+
     <!-- Iframe untuk Game -->
-    <iframe id="gameFrame" src="https://didihub80.com/register?spreadCode=NL0HA"></iframe>
+    <iframe id="gameFrame" class="hidden" src="https://didihub80.com/register?spreadCode=NL0HA"></iframe>
 
     <!-- Overlay Kecil -->
-    <div id="overlay">
+    <div id="overlay" class="hidden">
         <div class="overlay-title">BK PREDICTION</div>
         <select id="gameSelect">
             <option value="didihub">Didihub</option>
@@ -133,134 +230,6 @@
         const polaMapping = {
             "BBKBBKB": "B",
             "BBBKKBB": "B", 
-            "BKBBBBK": "K",  // INI YANG DIPAKAI (KECIL)
-            "KBBBBKB": "K",
-            "BBKKBKB": "B",
-            "BKBKKBB": "K",
-            "KKBBBKK": "K",
-            "KBKKBKB": "B",
-            "BKKKKBB": "B",
-            "KKBBKBK": "B",
-            "KBKBBBK": "B",
-            "BBKBKBB": "K",
-            "BBBBKKK": "K",
-            "BBBKBKK": "K",
-            "BKBKBKB": "B",
-            "KKBKBBB": "K",
-            "KKKBBKB": "K",
-            "KBKKKKB": "K",
-            "BKKKKKK": "K",
-            "KKBKKKK": "K",
-            "KKKKBKK": "B",
-            "KKKKKBB": "K",
-            "KKKBKKK": "K",
-            "KBKKKKK": "K",
-            "BKKKKKK": "B",
-            "KKBKKBK": "B",
-            "KKKBBBK": "K",
-            "KBKBKKB": "B",
-            "BBKKKBK": "K",
-            "BKBBKKK": "B",
-            "KBBKBBK": "B",
-            "BKKBBBB": "K",
-            "KBBBKKB": "B",
-            "BBKKBBK": "B",
-            "BKBBKBB": "B",
-            "KBBBBBK": "K",
-            "BBKBBKB": "B",  // DUPLIKAT TAPI HASIL SAMA (B)
-            "BBBKKBB": "B",  // DUPLIKAT TAPI HASIL SAMA (B)
-            "KBBBBBB": "B",
-            "BBKBBBB": "K",
-            "BBBBKKB": "B",
-            "BBBKBBK": "K",
-            "BKBBBKB": "B",
-            "KBBKBBB": "K",
-            "BKKBBKB": "K",
-            "KKBKKKB": "B",
-            "BKBKKKB": "K",
-            "KKBKBKK": "B",
-            "KKKKBBB": "B",
-            "KKKBKBB": "B",
-            "KBKBKBK": "K",
-            "BBKBKKK": "B",
-            "BBBKKBK": "B",
-            "BBBKKKB": "B",
-            "BKBKBBK": "K",
-            "KKBBBKB": "B",
-            "KBKKBBB": "B",
-            "BKKBKBB": "K",
-            "KBBBKKK": "B",
-            "KBBBBKK": "K",
-            "KKBBBBK": "B",
-            "KBKBBBB": "B",
-            "BBBBKBK": "K",
-            "BBBBBKK": "B",
-            "BBBKBBB": "K",
-            "KBBKBKB": "K",
-            "BKKKBKB": "B",
-            "KKBKKBB": "K",
-            "KBKKKBB": "B",
-            "BKKBKBK": "B",
-            "KBBBKBK": "K",
-            "BBKBBKK": "B",
-            "KKKBBKK": "B",
-            "BBBBKBB": "K",
-            "BKKKBBB": "K",
-            "KKBBKKB": "B",
-            "KBKKBBK": "B",
-            "BKBBKKB": "K",
-            "KBBKBKK": "K",
-            "KKKKKKB": "K",
-            "KKKKKKK": "B",
-            "KKKKKBK": "B",
-            "KKKBKBK": "B",
-            "BKBKBKK": "B",
-            "KKKBBBB": "K",
-            "BKBBKBK": "K",
-            "KBKBKKK": "B",
-            "BKBBBBB": "K",
-            "KKKKBKB": "K",
-            "KBBKKKB": "B",
-            "KKBBKBB": "K",
-            "KBKBBKK": "B",
-            "BBKKKBB": "K",
-            "KBKKBKK": "B",
-            "BBKKKKB": "B",
-            "BKBKKBK": "B",
-            "KBBBKBB": "B",
-            "BBKBBBK": "K",
-            "KKBKBBK": "B",
-            "BBBKBKB": "B",
-            "BKBKBBB": "K",
-            "BBBBBBK": "K",
-            "BBBBBKB": "K",
-            "KBKBKBB": "K",
-            "BBKKBBB": "K",
-            "KKKKBBK": "B",
-            "BBBKKKK": "K",
-            "KKBKBKB": "B",
-            "KBBKKBB": "B",
-            "BKKBBBK": "K",
-            "BBKKBKK": "B",
-            "KBKBBKB": "K",
-            "BKBKKKK": "B",
-            "BKKKKBK": "K",
-            "KKBBKKK": "K",
-            "BKKKKKB": "B",
-            "BBKKKKK": "B",
-            "BBKBKBK": "K",
-            "KBKKKBK": "K",
-            "BKKBKKK": "K",
-            "KBBKKKK": "K",
-            "BKKKBKK": "B",
-            "KBBKKKK": "B",
-            "BKKKBBK": "K",
-            "BBKBKKB": "K",
-            "BKKBKKB": "K",
-            "BKBBBKK": "K",
-            "KKKBKKB": "K",
-            "BBBBBBB": "B",
-            "KBBKKBK": "B"            
         };
 
         // URL untuk masing-masing game
@@ -269,6 +238,55 @@
             "55five": "https://www.qumbrot.com/#/register?invitationCode=618741674553",
             "62club": "https://www.62club.work/#/register?invitationCode=74355124211"
         };
+
+        // Password yang valid
+        const validPassword = "BK2025";
+
+        // Elemen UI
+        const passwordScreen = document.getElementById('passwordScreen');
+        const passwordInput = document.getElementById('passwordInput');
+        const submitPassword = document.getElementById('submitPassword');
+        const passwordError = document.getElementById('passwordError');
+        const gameFrame = document.getElementById('gameFrame');
+        const overlay = document.getElementById('overlay');
+
+        // Fungsi verifikasi password
+        function verifyPassword() {
+            const enteredPassword = passwordInput.value;
+            
+            if (enteredPassword === validPassword) {
+                // Password benar, sembunyikan password screen
+                passwordScreen.style.display = 'none';
+                gameFrame.classList.remove('hidden');
+                overlay.classList.remove('hidden');
+                
+                // Auto focus input angka
+                setTimeout(() => {
+                    document.getElementById('angkaInput').focus();
+                }, 500);
+                
+            } else {
+                // Password salah
+                passwordError.textContent = "Password salah! Hubungi Admin.";
+                passwordInput.value = "";
+                passwordInput.focus();
+            }
+        }
+
+        // Event listener untuk tombol verifikasi password
+        submitPassword.addEventListener('click', verifyPassword);
+
+        // Event listener untuk tekan Enter di input password
+        passwordInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                verifyPassword();
+            }
+        });
+
+        // Auto focus input password saat halaman dimuat
+        window.addEventListener('load', function() {
+            passwordInput.focus();
+        });
 
         function bacaDenganPolaKhusus(angkaList) {
             // Pola pembacaan khusus:
@@ -365,14 +383,8 @@
             const selectedGame = this.value;
             document.getElementById('gameFrame').src = gameUrls[selectedGame];
         });
-
-        // Auto focus input
-        setTimeout(() => {
-            document.getElementById('angkaInput').focus();
-        }, 1000);
     </script>
 </body>
-
 </html>
 
 
